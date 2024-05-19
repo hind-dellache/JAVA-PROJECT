@@ -1,13 +1,14 @@
 package Cabinet;
-import java.util.ArrayList; // utilisée pour créer une liste dynamique (tableau redimensionnable) pour stocker les dossiers médicaux du patient.
-import java.util.Date;// Pour utiliser le type Date pour représenter la date de naissance
-import java.util.List;// Pour utiliser l'interface List pour stocker les antécédents médicaux, chirurgicaux, les allergies, etc.
-import java.util.Map;// Pour utiliser l'interface Map pour stocker les informations sur le terrain du patient
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class Patient {
-    private int id; // Identifiant unique du patient
+
     private String nom; // Nom du patient
     private String prenom; // Prénom du patient
-    private Date dateNaissance; // Date de naissance du patient
+    private String age; // Âge du patient
     private String telephone; // Numéro de téléphone du patient
     private String adresse; // Adresse du patient
     private List<String> antecedentsMedicaux; // Liste des antécédents médicaux du patient
@@ -16,17 +17,18 @@ public class Patient {
     private List<String> allergies; // Liste des allergies du patient
     private List<DossierMedical> dossiersMedical; // Liste des dossiers médicaux du patient
     private List<RendezVous> rendezVousList; // Liste des rendez-vous du patient
+
     // Constructeur
-    public Patient(int id, String nom, String prenom, Date dateNaissance, String telephone, String adresse ) {
-        this.id = id;
+    public Patient(String nom, String prenom, String age, String telephone, String adresse) {
         this.nom = nom;
         this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
+        this.age = age;
         this.telephone = telephone;
         this.adresse = adresse;
         this.dossiersMedical = new ArrayList<>(); // Initialisation de la liste des dossiers médicaux
         this.rendezVousList = new ArrayList<>(); // Initialisation de la liste des rendez-vous
     }
+
     // Getters et setters
     public String getNom() {
         return nom;
@@ -44,12 +46,12 @@ public class Patient {
         this.prenom = prenom;
     }
 
-    public Date getDateNaissance() {
-        return dateNaissance;
+    public String getAge() {
+        return age;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public String getTelephone() {
@@ -68,7 +70,7 @@ public class Patient {
         this.adresse = adresse;
     }
 
-    public List<String> getAntecedentsMedical() {
+    public List<String> getAntecedentsMedicaux() {
         return antecedentsMedicaux;
     }
 
@@ -76,7 +78,7 @@ public class Patient {
         this.antecedentsMedicaux = antecedentsMedicaux;
     }
 
-    public List<String> getAntecedentsChirurgical() {
+    public List<String> getAntecedentsChirurgicaux() {
         return antecedentsChirurgicaux;
     }
 
@@ -100,40 +102,53 @@ public class Patient {
         this.allergies = allergies;
     }
 
+    public List<DossierMedical> getDossiersMedical() {
+        return dossiersMedical;
+    }
+
+    public List<RendezVous> getRendezVousList() {
+        return rendezVousList;
+    }
+
     // Méthode toString() pour afficher les informations du patient
     @Override
     public String toString() {
         return "Patient{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
+                "nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
-                ", dateNaissance=" + dateNaissance +
+                ", age=" + age +
                 ", telephone='" + telephone + '\'' +
                 ", adresse='" + adresse + '\'' +
                 ", antecedentsMedicaux=" + antecedentsMedicaux +
                 ", antecedentsChirurgicaux=" + antecedentsChirurgicaux +
                 ", terrain=" + terrain +
                 ", allergies=" + allergies +
+                ", dossiersMedical=" + dossiersMedical +
+                ", rendezVousList=" + rendezVousList +
                 '}';
     }
+
     // Méthode pour ajouter un dossier médical à la liste des dossiers médicaux du patient
     public void ajouterDossierMedical(DossierMedical dossierMedical) {
         dossiersMedical.add(dossierMedical);
-    }  
+    }
+
     // Méthode pour ajouter un rendez-vous à la liste des rendez-vous du patient
     public void ajouterRendezVous(RendezVous rendezVous) {
         rendezVousList.add(rendezVous);
     }
+
     // Méthode pour supprimer un rendez-vous de la liste des rendez-vous du patient
     public void supprimerRendezVous(RendezVous rendezVous) {
         rendezVousList.remove(rendezVous);
     }
 
     // Méthode pour modifier les informations personnelles du patient
-    public void modifierInformations(String nom, String prenom, String adresse, String telephone) {
+    public void modifierInformations(String nom, String prenom, String adresse, String telephone, String age) {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.telephone = telephone;
-}
+        this.age = age;
+    }
 }
