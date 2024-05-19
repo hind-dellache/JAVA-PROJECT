@@ -1,74 +1,90 @@
 package Cabinet;
 import java.util.List; // Pour utiliser l'interface List pour stocker les médicaments
+
 public class Ordonnance {
     private List<Medicament> medicaments; // Liste des médicaments prescrits
     private String posologie; // Posologie des médicaments
-    private int dureeTraitement; // Durée du traitement en jours
+    private String dureeTraitement; // Durée du traitement en jours
     private Patient patient;
     private String motif;
+    private Medecin medecin;
 
     // Constructeur
-    public Ordonnance(List<Medicament> medicaments, String posologie, int dureeTraitement) {
+    public Ordonnance(List<Medicament> medicaments, String posologie, String dureeTraitement, Patient patient, String motif, Medecin medecin) {
         this.medicaments = medicaments;
         this.posologie = posologie;
         this.dureeTraitement = dureeTraitement;
+        this.patient = patient;
+        this.motif = motif;
+        this.medecin = medecin;
     }
 
-    // Getters et setters
+    // Getters
     public List<Medicament> getMedicaments() {
         return medicaments;
-    }
-
-    public void setMedicaments(List<Medicament> medicaments) {
-        this.medicaments = medicaments;
     }
 
     public String getPosologie() {
         return posologie;
     }
 
+    public String getDureeTraitement() {
+        return dureeTraitement;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public Medecin getMedecin() {
+        return medecin;
+    }
+
+    // Setters
+    public void setMedicaments(List<Medicament> medicaments) {
+        this.medicaments = medicaments;
+    }
+
     public void setPosologie(String posologie) {
         this.posologie = posologie;
     }
 
-    public int getDureeTraitement() {
-        return dureeTraitement;
-    }
-
-    public void setDureeTraitement(int dureeTraitement) {
+    public void setDureeTraitement(String dureeTraitement) {
         this.dureeTraitement = dureeTraitement;
     }
 
-    // Méthode toString() pour afficher les informations de l'ordonnance
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
+    }
+
+    public void setMedecin(Medecin medecin) {
+        this.medecin = medecin;
+    }
+    
+   
+
+    // Méthode toString
     @Override
     public String toString() {
-        return "Ordonnance{" +
-                "medicaments=" + medicaments +
-                ", posologie='" + posologie + '\'' +
-                ", dureeTraitement=" + dureeTraitement +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ordonnance:\n");
+        sb.append("Patient: ").append(patient.getNom()).append(" ").append(patient.getPrenom()).append("\n");
+        sb.append("Médecin: ").append(medecin.getNom()).append(" ").append(medecin.getPrenom()).append("\n");
+        sb.append("Motif: ").append(motif).append("\n");
+        sb.append("Posologie: ").append(posologie).append("\n");
+        sb.append("Durée du traitement: ").append(dureeTraitement).append(" jours\n");
+        sb.append("Médicaments prescrits:\n");
+        for (Medicament medicament : medicaments) {
+            sb.append("- ").append(medicament.getNom()).append(" (").append(medicament.getDosage()).append(" mg").append(")\n");
+        }
+        return sb.toString();
     }
-     // Méthode pour ajouter un médicament à la liste des médicaments de l'ordonnance
-     public void ajouterMedicament(Medicament medicament) {
-        medicaments.add(medicament);
-    }
-    // Méthode pour modifier la posologie de l'ordonnance
-    public void modifierPosologie(String posologie) {
-        this.posologie = posologie;
-    }
-
-    // Méthode pour modifier la durée du traitement de l'ordonnance
-    public void modifierDureeTraitement(int duree) {
-        this.dureeTraitement = duree;
-    }
-    // Méthode pour générer le certificat médical pour le patient
-    public void genererCertificat() {
-        // Implémentez ici la logique pour générer le certificat médical
-        // Vous pouvez par exemple créer une chaîne de caractères représentant le contenu du certificat
-        String contenuCertificat = "Certificat médical pour le patient " + patient.getNom() + " avec le motif : " + motif;
-        
-        // Imprimez ou retournez le certificat généré
-        System.out.println("Certificat médical généré : " + contenuCertificat);
-    }
-
 }
