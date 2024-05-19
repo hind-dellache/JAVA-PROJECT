@@ -1,15 +1,12 @@
+package Cabinet;
 
-package Cabinet; // Importation du package Cabinet
+import java.util.ArrayList;
+import java.util.Date;
 
-import java.util.Date; // Importation de la classe Date
-import java.time.LocalDate; // Importation de la classe LocalDate
-import java.time.LocalTime; // Importation de la classe LocalTime
-import java.time.LocalDateTime; // Importation de la classe LocalDateTime
-import java.util.ArrayList; // Importation de la classe ArrayList
-import java.util.List; // Importation de la classe List
-import java.util.concurrent.atomic.AtomicInteger; // Importation de la classe AtomicInteger
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class AppliCabinetMedical {
+public class AppliCabinet {
     private static final AtomicInteger compteur = new AtomicInteger(0);
 
     // Méthode pour générer un identifiant unique de manière atomique
@@ -18,94 +15,143 @@ public class AppliCabinetMedical {
     }
 
     public static void main(String[] args) {
+        
+        
+        // Créer un cabinet médical
+        Cabinet_Medical cabinet = new Cabinet_Medical("Cabinet du Centre", "123 Avenue de la Santé", "0123456789", "contact@cabinetcentre.com");
 
-        // ! Création d'objets nécessaires
+        // Ajouter des médecins
+       Medecin medecin1 = new Medecin( "Dupont", "Jean", "Médecin généraliste", "123 Rue des Médecins", "0123456789", "dr.dupont@example.com");
+        Medecin medecin2 = new Medecin( "Martin", "Sophie", "Cardiologue", "456 Rue des Spécialistes", "0987654321", "dr.martin@example.com");
+        
+        cabinet.ajouterMedecin(medecin1);
+        cabinet.ajouterMedecin(medecin2);
 
-        // ! Instanciation d'un objet Medecin
-        Medecin medecin = new Medecin(1, "Dr. Dupont", "Jean", "Médecin généraliste", "123 Rue des Médecins", "0123456789", "dr.dupont@example.com");
+        // Ajouter des patients
+        
+        Patient patient1 = new Patient( "Durand", "Alice","30",  "0123456789", "789 Rue des Patients");
 
-        // Création d'un objet Date pour la date de naissance
-        Date dateNaissance = new Date(); // initialiser la date de naissance selon vos besoins
+   
+        Patient patient2 = new Patient( "Lemoine", "Pierre","45",  "0987654321", "321 Rue des Patients");
 
-        // ! Instanciation d'un objet Patient
-        Patient patient = new Patient(1, "Dupont", "Alice", dateNaissance, "0123456789", "123 Rue des Patients");
+        cabinet.ajouterPatient(patient1);
+        cabinet.ajouterPatient(patient2);
 
-        //? Création d'un objet LocalDate pour la date de la consultation
-        LocalDate dateConsultation = LocalDate.now(); // initialiser la date de consultation selon vos besoins
+          // Ajouter des rendez-vous
+       RendezVous rendezVous1 = new RendezVous(patient1, "18", "05", "2024", "Consultation générale", medecin1);
+        RendezVous rendezVous2 = new RendezVous(patient2, "15", "06", "2024", "Consultation cardiologique", medecin2);
 
-        //? Création d'un objet LocalTime pour l'heure de la consultation
-        LocalTime heureConsultation = LocalTime.now(); // initialiser l'heure de consultation selon vos besoins
 
-        // ! Instanciation d'un objet Consultation
-        new Consultation(dateConsultation, heureConsultation, "Fièvre", "Pas d'allergies connues", "Examen normal", "Grippe", null, null);
+        cabinet.ajouterRendezVous(rendezVous1);
+        cabinet.ajouterRendezVous(rendezVous2);
+        
+        // Création des médicaments
+        Medicament medicament1 = new Medicament("Paracétamol", "500 mg");
+        Medicament medicament2 = new Medicament("Ibuprofène", "200 mg");
 
-        //! Création d'une liste de médicaments pour l'ordonnance
+        // Création de la liste des médicaments prescrits
         List<Medicament> medicaments = new ArrayList<>();
+        medicaments.add(medicament1);
+        medicaments.add(medicament2);
+        
+       // Création de l'ordonnance
+        Ordonnance ordonnance = new Ordonnance(medicaments, "posologie", "dureeTraitement", patient1, "motif", medecin1);
+        
+        
+// Création d'une instance de CertificatMedical en utilisant le constructeur
+Date date = new Date();
+CertificatMedical certificatMedical = new CertificatMedical(patient1, "motif", date, medecin1);
 
-        // Données pour un médicament spécifique
-        String nom = "Paracetamol";
-        String dosage = "500 mg";
 
-        // !Instanciation de l'objet Medicament avec les valeurs spécifiées
-         new Medicament(nom, dosage);
 
-        //! Instanciation d'un objet Ordonnance
-        new Ordonnance(medicaments, "Prendre un comprimé par jour après le repas", 7, patient, dosage, medecin);
-        // Création d'un objet Date pour la date du certificat médical
-        Date dateCertificat = new Date(); // Vous devez initialiser la date du certificat selon vos besoins
+// Création d'une instance de Consultation en utilisant le constructeur
+Consultation consultation = new Consultation("heure", "motif", "anamnese", "examenPhysique", "diagnostic", ordonnance, certificatMedical);
+        
+        TensionArterielle tension = new TensionArterielle(120, 80);
+        
 
-        // !Instanciation d'un objet CertificatMedical
-        new CertificatMedical(patient, "Arrêt de travail", dateCertificat, medecin);
-        // Initialisation des constantes pour un patient spécifique
-        int frequenceCardiaque = 75; // battements par minute
-        float temperature = 37.0f; // degrés Celsius
+        // Afficher les informations du cabinet
+        System.out.println(cabinet.toString());
+        // Ajouter des dossiers médicaux
+        List<Consultation> consultations1 = new ArrayList<>();
+        List<Consultation> consultations2 = new ArrayList<>();
+        
+        Constantes constantes1 = new Constantes("120/80 mmHg", 70, 36.6f);
+        Terrain terrain1 = new Terrain(65.0f, 170.0f, "O+");
+        List<String> allergies1 = new ArrayList<>();
+        allergies1.add("Pollen");
+        InformationsMedicales informationsMedicales1 = new InformationsMedicales("Aucun antécédent", "Aucune chirurgie", terrain1, allergies1, constantes1, "Rien de particulier");
+        
+        SuiviMedical suiviMedical1 = new SuiviMedical(patient1, informationsMedicales1, consultations1);
+        DossierMedical dossierMedical1 = new DossierMedical(patient1, consultations1, suiviMedical1, new ArrayList<>(), new ArrayList<>());
+        
+        Constantes constantes2 = new Constantes("110/70 mmHg", 75, 37.0f);
+        Terrain terrain2 = new Terrain(80.0f, 180.0f, "A+");
+        List<String> allergies2 = new ArrayList<>();
+        allergies2.add("Arachides");
+        InformationsMedicales informationsMedicales2 = new InformationsMedicales("Antécédents familiaux de diabète", "Appendicectomie", terrain2, allergies2, constantes2, "Rien de particulier");
 
-        //! Instanciation d'un objet Constantes avec les valeurs correctes
-        Constantes constantes = new Constantes("120/80 mmHg", frequenceCardiaque, temperature);
+        SuiviMedical suiviMedical2 = new SuiviMedical(patient2, informationsMedicales2, consultations2);
+        DossierMedical dossierMedical2 = new DossierMedical(patient2, consultations2, suiviMedical2, new ArrayList<>(), new ArrayList<>());
 
-        // Données pour un patient spécifique
-        float poids = 70.5f; // en kilogrammes
-        float taille = 175.0f; // en centimètres
-        String groupeSanguin = "AB+";
+        cabinet.ajouterDossierMedical(dossierMedical1);
+        cabinet.ajouterDossierMedical(dossierMedical2);
 
-        // !Instanciation de l'objet Terrain avec les valeurs spécifiées
-        Terrain terrain = new Terrain(poids, taille, groupeSanguin);
+       
+        // Afficher les informations du cabinet
+        cabinet.toString() ;
 
-        // ! Créer un objet InformationsMedicales
-        // Création d'une liste d'allergies
-        List<String> allergies = new ArrayList<>();
-        allergies.add("Allergie1");
-        allergies.add("Allergie2");
+        // Afficher les médecins
+        cabinet.afficherMedecins();
+        System.out.println();
 
-        // Ajoutez d'autres allergies si nécessaire
-         InformationsMedicales informationsMedicales = new InformationsMedicales("Antécédents médicaux du patient", "Antécédents chirurgicaux du patient", terrain, allergies, constantes, "Résumé des traitements médicaux du patient");
+        // Afficher les patients
+        cabinet.afficherPatients();
+        System.out.println();
 
-        //! Créer une liste de consultations
-        List<Consultation> historiqueConsultations = new ArrayList<>();
+        // Afficher les rendez-vous
+        cabinet.afficherRendezVous();
+        System.out.println();
+       
+        
+         // Rechercher un dossier médical par nom de patient
+        String nomRecherche = "Durand";
+        DossierMedical dossierTrouve = cabinet.rechercherDossierParNom(nomRecherche);
 
-        //! Instancier l'objet SuiviMedical
-        SuiviMedical suiviMedical = new SuiviMedical(patient, informationsMedicales, historiqueConsultations);
+        // Afficher le résultat de la recherche
+        if (dossierTrouve != null) {
+            System.out.println("Dossier médical trouvé pour " + nomRecherche + ":");
+            System.out.println(dossierTrouve);
+        } else {
+            System.out.println("Aucun dossier médical trouvé pour " + nomRecherche);
+        }
+        
+         // Créer un nouveau dossier médical pour un patient spécifique
+        DossierMedical nouveauDossier = new DossierMedical(patient1);
 
-        // Utiliser l'objet suiviMedical
-        System.out.println("Nom du patient : " + suiviMedical.getPatient().getNom());
-        System.out.println("Informations médicales : " + suiviMedical.getInformationsMedicales());
-        System.out.println("Historique des consultations : " + suiviMedical.getHistoriqueConsultations());
+        // Ajouter le nouveau dossier médical au patient spécifié
+        boolean ajoutReussi = cabinet.ajouterDossierMedicalAPatient("Durand", nouveauDossier);
 
-        // Date et heure du rendez-vous
-        LocalDateTime dateHeure = LocalDateTime.of(2024, 4, 6, 10, 30);
+        // Vérifier si l'ajout a été réussi
+        if (ajoutReussi) {
+            System.out.println("Nouveau dossier médical ajouté avec succès pour le patient Dupont.");
+        } else {
+            System.out.println("Échec de l'ajout du dossier médical pour le patient Dupont.");
+        }
+         
 
-        // Motif du rendez-vous
-        String motif = "Examen de routine";
+        
+        
 
-        // Statut du rendez-vous
-        String statut = "En attente";
-
-        // Générer un identifiant unique pour le rendez-vous
-        int id = genererIdUnique();
-
-        //! Créer l'objet RendezVous en utilisant le constructeur
-        new RendezVous(id, patient, dateHeure, motif, statut, medecin);
-        //! Instancier l'objet dossier medical 
-        new DossierMedical(patient, new ArrayList<>(), suiviMedical, new ArrayList<>(), new ArrayList<>());
+        // Rechercher et afficher le dossier médical du patient "Durand"
+        DossierMedical dossierMedical = cabinet.rechercherDossierParNom("Durand");
+        if (dossierMedical != null) {
+            dossierMedical.afficherDossierMedical();
+        } else {
+            System.out.println("Dossier médical non trouvé pour le patient Dupont.");
+        }
+        
+        
+        
     }
-}
+    }
