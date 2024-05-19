@@ -1,41 +1,52 @@
 package Cabinet;
-import java.time.LocalDateTime; // Nous utilisons le type LocalDateTime pour représenter la date et l'heure
 import java.util.concurrent.atomic.AtomicInteger;
 
-import Cabinet.Medecin;
-import Cabinet.Patient;
 public class RendezVous {
     private static final AtomicInteger compteur = new AtomicInteger(0);
-    // Méthode pour générer un identifiant unique de manière atomique
-    private static int genererIdUnique() {
-        return compteur.incrementAndGet();
-    }
-    private int id; // Identifiant unique du rendez-vous
-    private Patient patient; // Objet Patient correspondant au patient concerné par le rendez-vous
-    private LocalDateTime dateHeure; // Date et heure du rendez-vous
-    private String motif; // Motif du rendez-vous
-    private String statut; // Statut du rendez-vous (en attente, confirmé, annulé)
+    private Patient patient;
+    private String jour;
+    private String mois;
+    private String annee;
+    private String motif;
     private Medecin medecin;
 
-    // Constructeur
-    public RendezVous(int id, Patient patient, LocalDateTime dateHeure, String motif, String statut,Medecin medecin) {
-        this.id = id;
+    public RendezVous(Patient patient, String jour, String mois, String annee, String motif, Medecin medecin) {
         this.patient = patient;
-        this.dateHeure = dateHeure;
+        this.jour = jour;
+        this.mois = mois;
+        this.annee = annee;
         this.motif = motif;
-        this.statut = statut;
         this.medecin = medecin;
     }
-
-    // Getters et setters
-    public int getId() {
-        return id;
+public String getJour() {
+        return jour;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    // Setter pour jour
+    public void setJour(String jour) {
+        this.jour = jour;
     }
 
+    // Getter pour mois
+    public String getMois() {
+        return mois;
+    }
+
+    // Setter pour mois
+    public void setMois(String mois) {
+        this.mois = mois;
+    }
+
+    // Getter pour annee
+    public String getAnnee() {
+        return annee;
+    }
+
+    // Setter pour annee
+    public void setAnnee(String annee) {
+        this.annee = annee;
+    }
+    
     public Patient getPatient() {
         return patient;
     }
@@ -44,13 +55,7 @@ public class RendezVous {
         this.patient = patient;
     }
 
-    public LocalDateTime getDateHeure() {
-        return dateHeure;
-    }
-
-    public void setDateHeure(LocalDateTime dateHeure) {
-        this.dateHeure = dateHeure;
-    }
+    
 
     public String getMotif() {
         return motif;
@@ -60,13 +65,6 @@ public class RendezVous {
         this.motif = motif;
     }
 
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
     public Medecin getMedecin() {
         return medecin;
     }
@@ -74,51 +72,34 @@ public class RendezVous {
     public void setMedecin(Medecin medecin) {
         this.medecin = medecin;
     }
-    // Méthode toString() pour afficher les informations du rendez-vous
+
     @Override
     public String toString() {
         return "RendezVous{" +
-                "id=" + id +
-                ", patient=" + patient +
-                ", dateHeure=" + dateHeure +
+                "patient=" + patient +
+                ", date=" + jour + " " + mois + " " + annee +
                 ", motif='" + motif + '\'' +
-                ", statut='" + statut + '\'' +
+                ", medecin='" + medecin + '\'' +
                 '}';
     }
-      // Méthode pour prendre un rendez-vous
-    public static RendezVous prendreRendezVous(Patient patient, LocalDateTime dateHeure, Medecin medecin) {
-        // Appeler la méthode attribuerRendezVous pour créer le rendez-vous
-        RendezVous rendezVous = attribuerRendezVous(patient, dateHeure, medecin);
 
-        // Si le rendez-vous a été créé avec succès, confirmer au patient
+    public static RendezVous prendreRendezVous(Patient patient, String jour, String mois, String annee, Medecin medecin) {
+        RendezVous rendezVous = attribuerRendezVous(patient, jour, mois, annee, medecin);
         if (rendezVous != null) {
-            System.out.println("Rendez-vous pris avec succès pour le " + rendezVous.getDateHeure() + " avec le Dr. " + medecin.getNom() + ".");
+            System.out.println("Rendez-vous pris avec succès pour le " + rendezVous.getJour() + " " + rendezVous.getMois() + " " + rendezVous.getAnnee() + " avec le Dr. " + medecin.getNom() + ".");
         }
-
         return rendezVous;
     }
 
-    // Méthode pour attribuer un rendez-vous
-    public static RendezVous attribuerRendezVous(Patient patient, LocalDateTime dateHeure, Medecin medecin) {
-        // Vérifier la disponibilité du médecin
-        if (!medecin.verifierDisponibilite(dateHeure)) {
-            System.out.println("Le médecin n'est pas disponible à cette date et heure.");
-            return null;
-        }
-    
-        // Créer un nouveau rendez-vous
-        RendezVous rendezVous = new RendezVous(genererIdUnique(), patient, dateHeure, "Motif non spécifié", "En attente", medecin);
-
-        // Enregistrer le rendez-vous (si nécessaire)
-        enregistrerRendezVous(rendezVous);
-
+    public static RendezVous attribuerRendezVous(Patient patient, String jour, String mois, String annee, Medecin medecin) {
+        // Logique de vérification de disponibilité du médecin
+        RendezVous rendezVous = new RendezVous(patient, jour, mois, annee, "Motif non spécifié", medecin);
+        // Logique d'enregistrement du rendez-vous
         return rendezVous;
-    }
-
-    // Méthode pour enregistrer un rendez-vous
-    public static void enregistrerRendezVous(RendezVous rendezVous) {
-        // Implémenter la logique d'enregistrement du rendez-vous (par exemple, dans une base de données)
-        System.out.println("Le rendez-vous a été enregistré.");
+        
+        
+     
     }
     
+   
 }
