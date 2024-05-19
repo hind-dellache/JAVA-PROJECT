@@ -1,10 +1,13 @@
 package Cabinet;
+
+import java.util.Objects;
+
 import java.time.LocalDateTime; // utilisée pour manipuler les objets de date et heure, notamment pour la vérification de la disponibilité du médecin.
 import java.util.ArrayList; //   utilisée pour travailler avec des listes dynamiques, notamment pour stocker les consultations effectuées par le médecin.
 import java.util.List; //  utilisée pour déclarer et manipuler des listes, qui sont utilisées pour stocker les consultations du médecin.
 public class Medecin {
 
-    private int id; // Identifiant unique du médecin
+    
     private String nom; // Nom du médecin
     private String prenom; // Prénom du médecin
     private String specialite; // Spécialité du médecin
@@ -14,8 +17,8 @@ public class Medecin {
     private List<Consultation> consultations; // Liste des consultations effectuées par le médecin
 
     // Constructeur
-    public Medecin(int id, String nom, String prenom, String specialite, String adresse, String numeroTelephone, String email) {
-        this.id = id;
+    public Medecin( String nom, String prenom, String specialite, String adresse, String numeroTelephone, String email) {
+        
         this.nom = nom;
         this.prenom = prenom;
         this.specialite = specialite;
@@ -27,14 +30,8 @@ public class Medecin {
 
     // Getters et setters
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
+    
     public String getNom() {
         return nom;
     }
@@ -85,14 +82,26 @@ public class Medecin {
     @Override
     public String toString() {
         return "Medecin{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
+                "nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", specialite='" + specialite + '\'' +
                 ", adresse='" + adresse + '\'' +
                 ", numeroTelephone='" + numeroTelephone + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Medecin medecin = (Medecin) o;
+        return Objects.equals(nom, medecin.nom) &&
+               Objects.equals(prenom, medecin.prenom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, prenom);
     }
 
     //! Méthodes spécifiques
